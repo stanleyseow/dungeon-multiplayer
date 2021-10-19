@@ -1,12 +1,12 @@
 {
-  "name": "game",
+  "name": "dungeon-multiplayer",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node ."
   },
-  "author": "jrusly",
+  "author": "stanleyseow",
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.3",
