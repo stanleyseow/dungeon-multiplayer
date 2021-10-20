@@ -106,6 +106,7 @@ export default class Player {
 
       this.scene.physics.add.collider(this.itemLayer, this.currentPlayer);
 
+      // not working
       //this.playersObj[this.socket.id].setCollideWorldBounds(true);
 
       this.socket.on(MOVE, (data) => {
@@ -142,6 +143,7 @@ export default class Player {
     this.playersObj[id] = this.scene.physics.add
       .sprite(x, y, playerKey)
       .setScale(2);
+    this.playersObj[id].body.setSize(20, 26);
     this.playersObj[id].anims.play(downKeyAvatar);
     this.playersObj[id].anims.stop();
   }
