@@ -3,8 +3,6 @@ import annaPng from "../scenes/assets/anna.png";
 import peterPng from "../scenes/assets/peter32.png";
 import robotPng from "../scenes/assets/robot32.png";
 
-let player = {};
-
 export default class world extends Phaser.Scene {
   constructor() {
     super("world");
@@ -14,25 +12,16 @@ export default class world extends Phaser.Scene {
   init(data) {
     //this.player = data.player
     this.inventory = data.inventory;
-
+    this.player = new Player(this, "world", {x: 650, y: 500, direction: "p-down",});
+    this.character = data.character
     // *** socketIO
     // Passed to player
     // scene
     // room
     // position { x: nnn, y: nn, direction : "down" }
-    this.player = new Player(this, "world", {
-      x: 650,
-      y: 500,
-      direction: "p-down",
-    });
   }
 
   preload() {
-    this.load.spritesheet("anna", annaPng, {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
-
     this.load.spritesheet("robot", robotPng, {
       frameWidth: 32,
       frameHeight: 32,
@@ -116,7 +105,7 @@ export default class world extends Phaser.Scene {
     /////////////////////////////////////////////////////////////////
     // SocketIO codes //////////////////////////////////////////////
 
-    this.player.create("robot");
+    this.player.create(this.character);
 
     // debug for player
     window.player = this.player;
@@ -138,10 +127,6 @@ export default class world extends Phaser.Scene {
     //let player = this.player.playersObj[playerId];
     console.log("this.player: ", this.player);
 
-    this.anna = this.physics.add.sprite(400, 400, "anna");
-
-    this.physics.add.collider(this.anna, player);
-
     /////////////////////////////////////////////////////////////////
 
     // door1
@@ -157,7 +142,7 @@ export default class world extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    //this.cameras.main.startFollow(this.player);
+    this.cameras.main.startFollow(this.player);
 
     // mini map
     this.minimap = this.cameras
@@ -165,10 +150,10 @@ export default class world extends Phaser.Scene {
       .setZoom(0.5)
       .setName("mini");
     this.minimap.setBackgroundColor(0x000000);
-    this.minimap.startFollow(player);
+    this.minimap.startFollow(this.player);
     this.minimap.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    // this.minimap.scrollX = 320;
-    // this.minimap.scrollY = 320;
+    this.minimap.scrollX = 320;
+    this.minimap.scrollY = 320;
 
     console.log(
       "game canvas (w,h): ",
