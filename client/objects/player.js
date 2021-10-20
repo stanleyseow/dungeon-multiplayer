@@ -17,9 +17,10 @@ let rightKey;
 let upKey;
 let downKey;
 
-class Player extends Phaser.GameObjects.Sprite {
+//class Player extends Phaser.GameObjects.Sprite {
+export default class Player {
   constructor(scene, room, position) {
-    super(scene);
+    //super(scene);
 
     this.scene = scene;
     this.room = room;
@@ -33,12 +34,14 @@ class Player extends Phaser.GameObjects.Sprite {
     console.log("position: ", this.position);
   }
 
-  create(key) {
+  create(key, itemLayer) {
     playerKey = key;
     leftKey = "left-" + key;
     rightKey = "right-" + key;
     upKey = "up-" + key;
     downKey = "down-" + key;
+    this.itemLayer = itemLayer;
+    console.log("this.itemLayer: ", this.itemLayer);
 
     // Send avatar after position
     this.socket.emit(NEW_PLAYER, this.room, this.position, playerKey);
@@ -64,10 +67,34 @@ class Player extends Phaser.GameObjects.Sprite {
         );
       }
 
+      this.currentPlayer = this.playersObj[this.socket.id];
+      console.log("this.currentPlayer: ", this.currentPlayer);
+
+      // Camera follow player
       this.scene.cameras.main.startFollow(
         this.playersObj[this.socket.id],
         true
       );
+
+      // mini map
+      this.minimap = this.scene.cameras
+        .add(10, 10, 150, 150)
+        .setZoom(0.3)
+        .setName("mini");
+      this.minimap.setBackgroundColor(0x000000);
+      this.minimap.startFollow(this.playersObj[this.socket.id]);
+      //   this.minimap.scrollX = 320;
+      //   this.minimap.scrollY = 320;
+
+      // door1
+      this.itemLayer.setTileIndexCallback(360, this.room1, this);
+      this.itemLayer.setTileIndexCallback(368, this.room1, this);
+
+      // door2
+      this.itemLayer.setTileIndexCallback(376, this.room2, this);
+      this.itemLayer.setTileIndexCallback(384, this.room2, this);
+
+      this.scene.physics.add.collider(this.itemLayer, this.currentPlayer);
 
       //this.playersObj[this.socket.id].setCollideWorldBounds(true);
 
@@ -107,9 +134,6 @@ class Player extends Phaser.GameObjects.Sprite {
       .setScale(2);
     this.playersObj[id].anims.play(downKeyAvatar);
     this.playersObj[id].anims.stop();
-
-    this.currentPlayer = this.playersObj[this.socket.id];
-    //console.log("currentPlayer: ", this.currentPlayer);
   }
 
   left() {
@@ -158,6 +182,22 @@ class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
+  room1(player, tile) {
+    console.log("room1: ", tile);
+    // this.scene.start("room1", {
+    //   player: player,
+    //   inventory: this.inventory,
+    // });
+  }
+
+  room2(player, tile) {
+    console.log("room2: ", tile);
+    // this.scene.start("room2", {
+    //   player: player,
+    //   inventory: this.inventory,
+    // });
+  }
+
   //   registerChat() {
   //     let chat = document.getElementById(CHAT);
   //     let messages = document.getElementById("messages");
@@ -177,5 +217,3 @@ class Player extends Phaser.GameObjects.Sprite {
   //     });
   //   }
 }
-
-export default Player;

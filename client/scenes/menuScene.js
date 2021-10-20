@@ -21,12 +21,12 @@ export default class menuScene extends Phaser.Scene {
     //========== map's spritesheet ==========
     this.load.spritesheet("pipoya", pipoyaPng, {
       frameWidth: 32,
-      frameHeight: 32
+      frameHeight: 32,
     });
     //======= character's spritesheet =======
     this.load.spritesheet("robot", robotPng, {
       frameWidth: 32,
-      frameHeight: 32
+      frameHeight: 32,
     });
     this.load.spritesheet("peter", peterPng, {
       frameWidth: 32,
@@ -39,32 +39,16 @@ export default class menuScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("map2", map2);
 
     this.load.image("main", mainPage);
-
-    //=========== audio preloads ===========
-    // this.load.audio("explode", explode);
-    // this.load.audio("shooter", shooter);
-    // this.load.audio("ping", ping);
-
-    // this.load.audio('bgMusic', bgMusic);
-    // this.load.audio('moongate', moongateSnd);
-
-  }//end preload
+  } //end preload
 
   create() {
     console.log("*** menuScene");
-    this.scene.bringToTop();
-    //this.scene.sendToBack('showInventory');
-
-    // ==== Add any sound and music here ====
-    // ==== ( 0 = mute to 1 is loudest ) ====
-    // this.music = this.sound.add("bgMusic", {loop: true}).setVolume(0.2); // 30% volume
-    // this.music.play()
 
     var rect = new Phaser.Geom.Rectangle(0, 576, 640, 64);
     var graphics = this.add.graphics({
       fillStyle: {
-        color: 0x000000
-      }
+        color: 0x000000,
+      },
     });
     graphics.fillRectShape(rect).setScrollFactor(0);
 
@@ -79,37 +63,106 @@ export default class menuScene extends Phaser.Scene {
     // });
     this.add.text(130, 550, "Select your character", {
       font: "30px Courier",
-      fill: "#FFFFFF"
+      fill: "#FFFFFF",
     });
     //================ end main text ================
 
     //======== Create all the animations here ========
+
     this.anims.create({
-      key: "down-robot",
-      frames: this.anims.generateFrameNumbers("robot", { start: 18, end: 26 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    this.anims.create({
-      key: "down-peter",
-      frames: this.anims.generateFrameNumbers("peter", { start: 19, end: 25 }),
-      frameRate: 10,
+      key: "up-robot",
+      frames: this.anims.generateFrameNumbers("robot", { start: 0, end: 7 }),
+      frameRate: 15,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: "left-robot",
+      frames: this.anims.generateFrameNumbers("robot", { start: 8, end: 16 }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "down-robot",
+      frames: this.anims.generateFrameNumbers("robot", { start: 18, end: 25 }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "right-robot",
+      frames: this.anims.generateFrameNumbers("robot", { start: 26, end: 35 }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "up-peter",
+      frames: this.anims.generateFrameNumbers("peter", { start: 0, end: 7 }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "left-peter",
+      frames: this.anims.generateFrameNumbers("peter", { start: 8, end: 16 }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "down-peter",
+      frames: this.anims.generateFrameNumbers("peter", { start: 18, end: 25 }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "right-peter",
+      frames: this.anims.generateFrameNumbers("peter", { start: 26, end: 35 }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
     //================ end animations ================
 
-    this.character_1 = this.physics.add.sprite(220, 300, "robot").play("down-robot").setScale(5).setInteractive();
-    this.character_2 = this.physics.add.sprite(420, 300, "peter").play("down-peter").setScale(5).setInteractive();
-    this.character_1.on('pointerdown', function (pointer){
-      console.log("selected robot character");
-      this.character = "robot";
-      this.scene.start("world", {player: this.player, inventory: this.inventory, character: this.character});
-    },this);
-    this.character_2.on('pointerdown', function (pointer){
-      console.log("selected peter character");
-      this.character = "peter";
-      this.scene.start("world", {player: this.player, inventory: this.inventory, character: this.character});
-    },this);
+    this.character_1 = this.physics.add
+      .sprite(220, 300, "robot")
+      .play("down-robot")
+      .setScale(5)
+      .setInteractive();
+    this.character_2 = this.physics.add
+      .sprite(420, 300, "peter")
+      .play("down-peter")
+      .setScale(5)
+      .setInteractive();
+    this.character_1.on(
+      "pointerdown",
+      function (pointer) {
+        console.log("selected robot character");
+        this.character = "robot";
+        this.scene.start("world", {
+          player: this.player,
+          inventory: this.inventory,
+          character: this.character,
+        });
+      },
+      this
+    );
+    this.character_2.on(
+      "pointerdown",
+      function (pointer) {
+        console.log("selected peter character");
+        this.character = "peter";
+        this.scene.start("world", {
+          player: this.player,
+          inventory: this.inventory,
+          character: this.character,
+        });
+      },
+      this
+    );
 
     // Define objects for player and inventory
     this.player = {};
@@ -134,7 +187,6 @@ export default class menuScene extends Phaser.Scene {
     // },this);
 
     // console.log(this.input.activePointer.x, this.input.activePointer.y)
-
   } // end of create
 
   update(t, dt) {}
