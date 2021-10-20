@@ -41,7 +41,6 @@ export default class Player {
     upKey = "up-" + key;
     downKey = "down-" + key;
     this.itemLayer = itemLayer;
-    console.log("this.itemLayer: ", this.itemLayer);
 
     // Send avatar after position
     this.socket.emit(NEW_PLAYER, this.room, this.position, playerKey);
@@ -93,6 +92,17 @@ export default class Player {
       // door2
       this.itemLayer.setTileIndexCallback(376, this.room2, this);
       this.itemLayer.setTileIndexCallback(384, this.room2, this);
+
+      // door3
+      this.itemLayer.setTileIndexCallback(392, this.room3, this);
+      this.itemLayer.setTileIndexCallback(400, this.room3, this);
+
+      // door4
+      this.itemLayer.setTileIndexCallback(308, this.room4, this);
+      this.itemLayer.setTileIndexCallback(416, this.room4, this);
+
+      this.itemLayer.setCollisionByProperty({ wall1: true });
+      this.itemLayer.setCollisionByProperty({ fountain: true });
 
       this.scene.physics.add.collider(this.itemLayer, this.currentPlayer);
 
@@ -183,7 +193,7 @@ export default class Player {
   }
 
   room1(player, tile) {
-    console.log("room1: ", tile);
+    console.log("room1: ", player, tile);
     // this.scene.start("room1", {
     //   player: player,
     //   inventory: this.inventory,
@@ -191,8 +201,24 @@ export default class Player {
   }
 
   room2(player, tile) {
-    console.log("room2: ", tile);
+    console.log("room2: ", player, tile);
     // this.scene.start("room2", {
+    //   player: player,
+    //   inventory: this.inventory,
+    // });
+  }
+
+  room3(player, tile) {
+    console.log("room3: ", player, tile);
+    // this.scene.start("room1", {
+    //   player: player,
+    //   inventory: this.inventory,
+    // });
+  }
+
+  room4(player, tile) {
+    console.log("room4: ", player, tile);
+    // this.scene.start("room1", {
     //   player: player,
     //   inventory: this.inventory,
     // });
