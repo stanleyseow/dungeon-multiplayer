@@ -1,7 +1,4 @@
 import Player from "../objects/player";
-import annaPng from "../scenes/assets/anna.png";
-import peterPng from "../scenes/assets/peter32.png";
-import robotPng from "../scenes/assets/robot32.png";
 
 export default class world extends Phaser.Scene {
   constructor() {
@@ -21,21 +18,11 @@ export default class world extends Phaser.Scene {
     });
   }
 
-  preload() {
-    this.load.spritesheet("robot", robotPng, {
-      frameWidth: 32,
-      frameHeight: 32,
-    });
-
-    this.load.spritesheet("peter", peterPng, {
-      frameWidth: 32,
-      frameHeight: 32,
-    });
-  }
+  preload() {}
 
   create() {
     console.log("*** world");
-    console.log("inventory: ", this.inventory);
+    //console.log("inventory: ", this.inventory);
 
     let map = this.make.tilemap({
       key: "map0",
@@ -97,20 +84,4 @@ export default class world extends Phaser.Scene {
       //this.player.body.setVelocityY(speed);
     }
   } /////////////////// end of update //////////////////////////////////////
-
-  room1(player, tile) {
-    console.log("room1: ", tile);
-    // this.scene.start("room1", {
-    //   player: player,
-    //   inventory: this.inventory,
-    // });
-  }
-
-  room2(player, tile) {
-    console.log("room2: ", tile);
-    // this.scene.start("room2", {
-    //   player: player,
-    //   inventory: this.inventory,
-    // });
-  }
 } //////////// end of class world ////////////////////////
