@@ -13,20 +13,21 @@ import { WORLD, ROOM1, ROOM2 } from "../../shared/constants/sceneList";
 let playersArray = [];
 
 class serverPlayer extends BaseModel {
-  constructor(id, position) {
+  constructor(id, position, avatar) {
     super(id, position.x, position.y);
     this.direction = position.direction;
+    this.avatar = avatar;
   }
 
   static onConnect(io, socket) {
     let player;
 
-    socket.on(NEW_PLAYER, (room, position) => {
-      console.log("*** serverPlayer on NEW_PLAYER: ", room, position);
+    socket.on(NEW_PLAYER, (room, position, avatar) => {
+      console.log("*** serverPlayer on NEW_PLAYER: ", room, position, avatar);
       socket.join(room);
       socket.room = room;
 
-      player = new serverPlayer(socket.id, position);
+      player = new serverPlayer(socket.id, position, avatar);
       console.log("player: ", player);
       console.log("serverPlayer.list: ", serverPlayer.list);
 

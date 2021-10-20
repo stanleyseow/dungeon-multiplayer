@@ -40,12 +40,13 @@ class Player extends Phaser.GameObjects.Sprite {
     upKey = "up-" + key;
     downKey = "down-" + key;
 
-    this.socket.emit(NEW_PLAYER, this.room, this.position);
+    // Send avatar after position
+    this.socket.emit(NEW_PLAYER, this.room, this.position, playerKey);
     console.log("*** emit player.create NEW_PLAYER");
 
     this.socket.on(NEW_PLAYER, (data) => {
       console.log("*** recv NEW_PLAYER: ", data);
-      this.addPlayer(data.id, data.x, data.y, data.direction);
+      this.addPlayer(data.id, data.x, data.y, data.direction, data.avatar);
     });
 
     this.socket.on(ALL_PLAYERS, (data) => {
@@ -54,7 +55,13 @@ class Player extends Phaser.GameObjects.Sprite {
       this.scene.scene.setVisible(true, this.room);
 
       for (let i = 0; i < data.length; i++) {
-        this.addPlayer(data[i].id, data[i].x, data[i].y, data[i].direction);
+        this.addPlayer(
+          data[i].id,
+          data[i].x,
+          data[i].y,
+          data[i].direction,
+          data[i].avatar
+        );
       }
 
       this.scene.cameras.main.startFollow(
@@ -89,14 +96,16 @@ class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
-  addPlayer(id, x, y, direction) {
-    console.log("*** addPlayer: ", id, x, y, direction);
+  addPlayer(id, x, y, direction, avatar) {
+    console.log("*** addPlayer: ", id, x, y, direction, avatar);
     // Change here to get different avatar
 
+    let downKeyAvatar = "";
+    downKeyAvatar = "down-" + avatar;
     this.playersObj[id] = this.scene.physics.add
       .sprite(x, y, playerKey)
       .setScale(2);
-    this.playersObj[id].anims.play(downKey);
+    this.playersObj[id].anims.play(downKeyAvatar);
     this.playersObj[id].anims.stop();
 
     this.currentPlayer = this.playersObj[this.socket.id];

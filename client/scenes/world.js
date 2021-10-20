@@ -12,8 +12,15 @@ export default class world extends Phaser.Scene {
   init(data) {
     //this.player = data.player
     this.inventory = data.inventory;
-    this.player = new Player(this, "world", {x: 650, y: 500, direction: "p-down",});
-    this.character = data.character
+    this.character = data.character;
+    let avatarPos = "";
+    avatarPos = "down-" + this.character;
+    this.player = new Player(this, "world", {
+      x: 650,
+      y: 500,
+      direction: avatarPos,
+    });
+
     // *** socketIO
     // Passed to player
     // scene
