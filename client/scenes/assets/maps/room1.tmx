@@ -4,7 +4,7 @@
   <export target="room1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="pipoya32x32" tilewidth="32" tileheight="32" tilecount="1064" columns="8">
-  <image source="pipoya32x32.png" width="256" height="4256"/>
+  <image source="../spritePNG/pipoya32x32.png" width="256" height="4256"/>
   <tile id="208">
    <properties>
     <property name="wall1" type="bool" value="true"/>

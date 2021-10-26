@@ -40,7 +40,7 @@
         {
          "columns":8,
          "firstgid":1,
-         "image":"pipoya32x32.png",
+         "image":"..\/spritePNG\/pipoya32x32.png",
          "imageheight":4256,
          "imagewidth":256,
          "margin":0,

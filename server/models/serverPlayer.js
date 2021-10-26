@@ -28,11 +28,12 @@ class serverPlayer extends BaseModel {
       socket.room = room;
 
       player = new serverPlayer(socket.id, position, avatar);
-      console.log("player: ", player);
-      console.log("serverPlayer.list: ", serverPlayer.list);
+      //console.log("player: ", player);
+      //console.log("serverPlayer.list: ", serverPlayer.list);
 
       serverPlayer.list[room][socket.id] = player;
-      playersArray = [];
+
+      playersArray = []; // clear array
       for (let i in serverPlayer.list[room]) {
         playersArray.push(serverPlayer.list[room][i]);
       }
@@ -42,6 +43,9 @@ class serverPlayer extends BaseModel {
 
       console.log("*** serverPlayer bcast to room, emit NEW_PLAYER: ", player);
       socket.broadcast.to(room).emit(NEW_PLAYER, player);
+
+      console.log("============ AFTER NEW_PLAYER ============");
+      console.log("serverPlayer.list: ", serverPlayer.list);
     });
 
     socket.on(CHAT, (message) => {
@@ -50,15 +54,28 @@ class serverPlayer extends BaseModel {
     });
 
     socket.on(KEY_PRESS, (direction, coor) => {
-      console.log("*** serverPlayer on KEY_PRESS: ", direction, coor);
+      //console.log("*** serverPlayer on KEY_PRESS: ", direction, coor);
       player.update(direction, coor);
       socket.broadcast.to(socket.room).emit(MOVE, player);
     });
 
     socket.on(STOP, (coor) => {
-      console.log("*** serverPlayer on STOP: ", coor);
+      //console.log("*** serverPlayer on STOP: ", coor);
       player.updatePosition(coor);
       socket.broadcast.to(socket.room).emit(STOP, player);
+    });
+
+    socket.on(REMOVE, (id, room) => {
+      console.log("*** serverPlayer bcast to room, REMOVE: ", id, room);
+      socket.broadcast.to(room).emit(REMOVE, id, room);
+
+      if (serverPlayer.list[room]) {
+        console.log("*** removing player :", id, room);
+        delete serverPlayer.list[room][id];
+      }
+
+      console.log("============ AFTER REMOVE ==============");
+      console.log("serverPlayer.list: ", serverPlayer.list);
     });
   }
 
@@ -71,8 +88,7 @@ class serverPlayer extends BaseModel {
 
       io.to(socket.room).emit(REMOVE, socket.id);
 
-      //console.log("playersArray: ", playersArray);
-      console.log("========================");
+      console.log("============ AFTER DISCONNECT ============");
       console.log("serverPlayer.list: ", serverPlayer.list);
     }
   }

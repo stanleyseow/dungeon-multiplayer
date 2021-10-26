@@ -13,7 +13,7 @@
     "glslify": "^6.1.1",
     "parcel-bundler": "^1.8.1",
     "phaser": "^3.55.2",
-    "socket.io": "^2.4.1",
+    "socket.io": "^2.1.0",
     "web3": "^1.6.0"
   },
   "devDependencies": {

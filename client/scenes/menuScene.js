@@ -1,15 +1,15 @@
 import Phaser from "phaser";
 
-import pipoyaPng from "./assets/pipoya32x32.png";
-import map0 from "./assets/map1.json";
-import map1 from "./assets/room1.json";
-import map2 from "./assets/room2.json";
+import pipoyaPng from "./assets/spritePNG/pipoya32x32.png";
+import map0 from "./assets/maps/map1.json";
+import map1 from "./assets/maps/room1.json";
+import map2 from "./assets/maps/room2.json";
 
 //======== character spritesheet's import ========
-import robotPng from "../scenes/assets/robot32.png";
-import peterPng from "../scenes/assets/peter32.png";
+import robotPng from "../scenes/assets/spritePNG/robot32.png";
+import peterPng from "../scenes/assets/spritePNG/peter32.png";
 
-import mainPage from "./assets/mainpage.jpg";
+import mainPage from "./assets/spritePNG/mainpage.jpg";
 
 export default class menuScene extends Phaser.Scene {
   constructor() {
@@ -167,8 +167,8 @@ export default class menuScene extends Phaser.Scene {
     // Define objects for player and inventory
     this.player = {};
     this.inventory = {};
-    this.player.x = 300;
-    this.player.y = 300;
+    this.player.x = 780;
+    this.player.y = 950;
     this.inventory.horse = 4;
     this.inventory.chest = 2;
     this.inventory.iceball = 10;

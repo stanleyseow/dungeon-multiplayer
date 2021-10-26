@@ -6,17 +6,21 @@ import room2 from "./scenes/room2";
 
 var config = {
   type: Phaser.AUTO,
-  width: 32 * 20,
-  height: 32 * 20,
+  // width: 32 * 20,
+  // height: 32 * 20,
+  width: 1600,
+  height: 800,
   physics: {
     default: "arcade",
     arcade: {
       debug: true,
     },
   },
+  
   scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
+    zoom: 0.9,
+    // mode: Phaser.Scale.FIT,
+    // autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   backgroundColor: "#000000",
   pixelArt: true,

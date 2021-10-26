@@ -85,26 +85,7 @@ export default class Player {
       //   this.minimap.scrollX = 320;
       //   this.minimap.scrollY = 320;
 
-      // door1
-      this.itemLayer.setTileIndexCallback(360, this.room1, this);
-      this.itemLayer.setTileIndexCallback(368, this.room1, this);
-
-      // door2
-      this.itemLayer.setTileIndexCallback(376, this.room2, this);
-      this.itemLayer.setTileIndexCallback(384, this.room2, this);
-
-      // door3
-      this.itemLayer.setTileIndexCallback(392, this.room3, this);
-      this.itemLayer.setTileIndexCallback(400, this.room3, this);
-
-      // door4
-      this.itemLayer.setTileIndexCallback(308, this.room4, this);
-      this.itemLayer.setTileIndexCallback(416, this.room4, this);
-
-      this.itemLayer.setCollisionByProperty({ wall1: true });
-      this.itemLayer.setCollisionByProperty({ fountain: true });
-
-      this.scene.physics.add.collider(this.itemLayer, this.currentPlayer);
+      //this.scene.physics.add.collider(this.itemLayer, this.currentPlayer);
 
       // not working
       //this.playersObj[this.socket.id].setCollideWorldBounds(true);
@@ -123,10 +104,14 @@ export default class Player {
         this.playersObj[data.id].anims.stop();
       });
 
-      this.socket.on(REMOVE, (id) => {
+      this.socket.on(REMOVE, (id, room) => {
         console.log("*** recv REMOVE: ", id);
+        // Destroy sprite
+        // Delete from array list
         this.playersObj[id].destroy();
         delete this.playersObj[id];
+
+        console.log("*** After DELETE: ", this.playersObj);
       });
 
       // Implement chat later
@@ -146,6 +131,8 @@ export default class Player {
     this.playersObj[id].body.setSize(20, 26);
     this.playersObj[id].anims.play(downKeyAvatar);
     this.playersObj[id].anims.stop();
+
+    console.log("*** After addPlayer: ", this.playersObj);
   }
 
   left() {
